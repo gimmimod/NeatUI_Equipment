@@ -1,0 +1,11 @@
+name=NeatUI Equipment
+id=NeatUI_Equipment
+poster=poster.png
+icon=icon.png
+modversion=1.0.0 (STABLE)
+author=Gimmi
+versionMin=42.20
+require=\NeatUI_Framework
+loadModAfter=NeatUI_Framework,CleanUI,CleanHotBar,Neat_Rocco,tofcm,INVENTORY_TETRIS
+incompatible=EQUIPMENT_UI,EQUIPMENT_UI_B42,EquipmentUI_B42,equipmentuipatch
+description=NeatUI Equipment: your character in 3D, surrounded by everything they are wearing, as a native part of the CleanUI / Clean HotBar / Neat family. <LINE> A small figure button on the edge of the CleanUI inventory - left or right, your choice - opens a single Neat panel: your character in 3D in the middle, equipment slots down both sides, the two hands as round slots in the bottom corners, and the hotbar attachment points below. <LINE> Slots are Clean HotBar slots, with layered clothing shown as chips beside the slot that fold out into a popup. <LINE> Drag and drop to equip, unequip, swap hands, attach to the hotbar or drop on the floor; right-click for the usual item menu. <LINE> The eye button takes the equipped section out of the CleanUI inventory list. The shirt button strips everything in one press and puts it all back on the next. <LINE> The hanger button opens the Wardrobe: see your outfit in 3D, choose whether bags and the belt with its hotbar belong to it, give it a name and a symbol, and save it. Open a saved outfit to see it in 3D, put it on, check its protection and warmth, or replace it with what you have on - every piece is found on you, in your bags or in any container within reach, and each piece you take off can be put away where things of its kind already are. The arrow in its header rolls the Wardrobe up to a title bar. <LINE> The chain button unhooks the panel: drag it anywhere and resize it from the corner grip. <LINE> Requires NeatUI Framework. Built to sit beside CleanUI and Clean HotBar. Controller supported. Localized in all 26 languages the game ships with.

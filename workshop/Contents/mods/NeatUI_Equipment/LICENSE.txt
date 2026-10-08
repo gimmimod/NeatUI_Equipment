@@ -1,0 +1,31 @@
+GIMMI MODS - LICENSE
+All rights reserved
+
+This mod is an original work by Gimmi. Its code and assets can be used
+only with my written consent. Here is what you can already do without
+asking.
+
+01 - YOU CAN, WITHOUT ASKING
+- Play it, alone or on public and private servers.
+- Show it in videos and streams.
+- Add it to Steam Workshop collections that link to the original page.
+- Make compatibility patches that require the original mod and contain
+  none of its files.
+- Translate it, as a separate add-on that requires the original.
+
+02 - ASK ME FIRST
+- Re-uploading the mod, whole or in part, anywhere.
+- Copying or reusing its code, textures, icons or other assets.
+- Publishing modified versions or forks.
+- Any commercial use, including paid or paywalled access.
+
+Being able to read the code on GitHub does not make it open source.
+
+03 - HOW TO ASK
+Write to me on X or GitHub and tell me what you want to do.
+Permission counts only when I give it in writing.
+
+X        https://x.com/GimmiMod
+GitHub   https://github.com/gimmimod
+
+Copyright (c) 2026 Gimmi. All rights reserved.
