@@ -87,4 +87,9 @@ UI_HU = {
 	UI_NEQ_options_disable_tooltip = "Csak neked: nincs alak gomb, nincs panel, nincs gyorsbillentyű, és a tárgylistát újra a játék rajzolja. A mentett öltözékek megmaradnak. Hasznos olyan szerveren, ahol a mod kötelező.",
 	UI_NEQ_options_reset_geometry = "Panel méretének és helyének visszaállítása",
 	UI_NEQ_options_reset_geometry_tooltip = "Visszailleszti a panelt a tárgylistához az eredeti méretben. Akkor használd, ha a panel kinőtt a képernyő szélén.",
+	UI_NEQ_put_away = "Ruhák elpakolva ide: %1",
+	UI_NEQ_options_panel_opacity = "Panel átlátszatlansága (normál: 100)",
+	UI_NEQ_options_panel_opacity_tooltip = "Mennyire tömör a panel és a ruhásszekrény háttere. A 100 teljesen átlátszatlan; kevesebbnél átlátszik a játék.",
+	UI_NEQ_options_match_cleanui = "CleanUI megjelenés",
+	UI_NEQ_options_match_cleanui_tooltip = "A panel és a ruhásszekrény a CleanUI saját keretét és a CleanUI beállításaiban választott háttér-átlátszatlanságot használja, így illik a leltárhoz. Bekapcsolva a csúszkát nem használja. CleanUI szükséges.",
 }

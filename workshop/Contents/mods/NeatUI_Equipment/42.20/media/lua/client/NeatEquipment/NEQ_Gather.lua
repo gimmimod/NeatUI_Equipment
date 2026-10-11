@@ -250,8 +250,11 @@ function G.storageTargets(character, playerNum)
         local okCarried, carried = pcall(function() return container:isInCharacterInventory(character) end)
         if not okCarried or carried then return end
 
+        -- Un cadavere, o qualcuno che indossa quello che riceve: un manichino
+        -- (anche quelli di altre mod, che il tipo di contenitore non dice).
         local okParent, parent = pcall(function() return container:getParent() end)
-        if okParent and parent and instanceof(parent, "IsoDeadBody") then return end
+        if okParent and parent and (instanceof(parent, "IsoDeadBody")
+            or instanceof(parent, "IsoMannequin")) then return end
 
         result[#result + 1] = container
     end

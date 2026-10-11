@@ -87,4 +87,9 @@ UI_KO = {
 	UI_NEQ_options_disable_tooltip = "나에게만 적용: 인물 버튼, 패널, 단축키가 사라지고 인벤토리 목록은 다시 게임이 그립니다. 저장한 복장은 유지됩니다. 이 모드가 필수인 서버에서 유용합니다.",
 	UI_NEQ_options_reset_geometry = "패널 크기와 위치 초기화",
 	UI_NEQ_options_reset_geometry_tooltip = "패널을 처음 크기로 인벤토리에 다시 붙입니다. 패널이 화면 가장자리를 넘어갔을 때 사용하세요.",
+	UI_NEQ_put_away = "옷을 정리한 곳: %1",
+	UI_NEQ_options_panel_opacity = "패널 불투명도 (기본: 100)",
+	UI_NEQ_options_panel_opacity_tooltip = "패널과 옷장 배경이 얼마나 불투명한지입니다. 100은 완전히 불투명하며, 낮을수록 게임 화면이 비쳐 보입니다.",
+	UI_NEQ_options_match_cleanui = "CleanUI와 같은 모양",
+	UI_NEQ_options_match_cleanui_tooltip = "패널과 옷장이 CleanUI의 테두리와 CleanUI 옵션에서 고른 배경 불투명도를 사용해 인벤토리와 어울립니다. 켜져 있는 동안 불투명도 슬라이더는 쓰이지 않습니다. CleanUI가 필요합니다.",
 }

@@ -64,6 +64,17 @@ options:addTickBox("DOCK_KEEP_SCALE",
     Style.tr("UI_NEQ_options_dock_keep_scale", "Attached: keep my size"), false,
     Style.tr("UI_NEQ_options_dock_keep_scale_tooltip", "The attached panel stops resizing itself to reach the bottom of the inventory and keeps the size set with the corner grip."))
 
+-- L'aspetto delle finestre (Style.drawWindow). Il cursore e' il fondo: la
+-- barra del titolo resta piena. "Come CleanUI" prende le texture e l'opacita'
+-- di CleanUI e lascia stare il cursore; senza CleanUI la casella si spegne.
+local opacitySlider = options:addSlider("PANEL_OPACITY",
+    Style.tr("UI_NEQ_options_panel_opacity", "Panel opacity (normal: 100)"), 10, 100, 5, 100,
+    Style.tr("UI_NEQ_options_panel_opacity_tooltip", "How solid the background of the panel and the wardrobe is. 100 is fully opaque; lower lets the game show through."))
+
+local matchCleanUIBox = options:addTickBox("MATCH_CLEANUI",
+    Style.tr("UI_NEQ_options_match_cleanui", "Look like CleanUI"), false,
+    Style.tr("UI_NEQ_options_match_cleanui_tooltip", "The panel and the wardrobe use CleanUI's own frame and the background opacity set in CleanUI's options, so they match the inventory. The opacity slider is not used while this is on. Needs CleanUI."))
+
 options:addTickBox("LOCK_PANEL",
     Style.tr("UI_NEQ_options_lock_panel", "Lock the detached panel"), false,
     Style.tr("UI_NEQ_options_lock_panel_tooltip", "Stops the detached panel from being moved or resized."))
@@ -142,6 +153,22 @@ function options:apply()
     State:setWardrobeNoHotbar(self:getOption("WARDROBE_NO_HOTBAR"):getValue())
     State:setControllerBind(self:getOption("TOGGLE_CONTROLLER_BIND"):getValue())
     State:setDisabled(off)
+    Style.BODY_ALPHA = math.max(0.1, math.min(1, (tonumber(self:getOption("PANEL_OPACITY"):getValue()) or 100) / 100))
+    Style.LOOK = self:getOption("MATCH_CLEANUI"):getValue() == true and "cleanui" or "neat"
+end
+
+-- Il cursore si vede mentre lo si trascina: le finestre si ridisegnano a ogni
+-- fotogramma e leggono Style.BODY_ALPHA, quindi basta scriverlo. All'Applica
+-- lo riscrive options:apply; il gioco chiama onChangeApply PRIMA di salvare
+-- il valore nell'opzione, quindi si usa quello che arriva.
+opacitySlider.onChange = function(_, v)
+    Style.BODY_ALPHA = math.max(0.1, math.min(1, (tonumber(v) or 100) / 100))
+end
+opacitySlider.onChangeApply = opacitySlider.onChange
+-- Per una casella il gioco chiama onChange(indice, selezionata)
+-- (MainOptions.lua, ramo tickbox), non col solo valore come per il cursore.
+matchCleanUIBox.onChange = function(_, _, selected)
+    Style.LOOK = (selected == true) and "cleanui" or "neat"
 end
 
 -- PZAPI applies the saved values when the options screen is confirmed, but not
@@ -157,6 +184,11 @@ Events.OnGameStart.Add(function()
     local Tetris = require("NeatEquipment/ModCompatibility/NEQ_InventoryTetris")
     if not Tetris.hasEquippedList() and hideEquippedBox.setEnabled then
         pcall(function() hideEquippedBox:setEnabled(false) end)
+    end
+
+    -- Senza CleanUI non c'e' niente a cui somigliare.
+    if type(rawget(_G, "CleanUI_getBackgroundOpacity")) ~= "function" and matchCleanUIBox.setEnabled then
+        pcall(function() matchCleanUIBox:setEnabled(false) end)
     end
 end)
 

@@ -6,10 +6,11 @@
     it does not have to fight CleanUI over the title-bar layout: it simply
     re-positions itself against that window every frame and follows it around.
 
-    It sits level with the title bar, on the outer edge - the left one, or the
-    right one when Mod Options put the panel there - and the docked panel
-    starts *below* the title bar - which is why the two never overlap and the
-    button stays clickable with the panel open.
+    It sits on the outer edge of the inventory - the left one, or the right one
+    when Mod Options put the panel there - level with the top of the window.
+    The docked panel starts at that same top edge, and its header leaves the
+    button a place of its own (headerReserve, in the panel), which is why the
+    two never overlap and the button stays clickable with the panel open.
 
     A standing figure - "what you have on" - rather than the bag it used to be,
     which read as one more container next to the real ones. Grey when the
@@ -54,13 +55,15 @@ end
 --- Big enough to be the obvious way in, small enough that it still belongs to
 --- the title bar it sits against.
 ---
---- Alto quanto la barra: agganciato sta dentro l'intestazione del pannello,
---- che e' alta come la barra del titolo, e sporgere sotto vorrebbe dire
---- coprire la prima fila di caselle.
+--- Lo stesso lato dei tasti dell'intestazione: agganciato sta in fila con loro,
+--- dentro la stessa barra, e un tasto piu' piccolo degli altri sembrerebbe di
+--- un'altra finestra.
 function NEQ_ToggleButton:preferredSize()
+    local band = self.panel and tonumber(self.panel.headerHeight)
+    if band then return Style.headerButtonSize(band) end
     local page = self.inventoryPage
     local titleBarHeight = (page and page.titleBarHeight and page:titleBarHeight()) or 16
-    return math.max(16, titleBarHeight)
+    return math.max(18, math.floor(titleBarHeight * 1.15))
 end
 
 --- Quanti pixel del pannello agganciato occupa, dal suo bordo verso
@@ -72,20 +75,6 @@ function NEQ_ToggleButton:reserveInPanel()
     local size = self:preferredSize()
     if State.dockRight then return GAP + size + 1 + 2 end
     return size + GAP + Tetris.sideStripWidth(self.inventoryPage) + 1 + 2
-end
-
---- Where the button stops. NEQ_Panel starts the docked panel below this rather
---- than below the title bar: the button overhangs the bar, and measuring
---- against the bar is what used to leave the panel's header underneath it.
-function NEQ_ToggleButton:bottomY()
-    local page = self.inventoryPage
-    if not page then return self:getY() + self:getHeight() end
-
-    -- Derived rather than read off the last frame: the panel asks this during
-    -- its own prerender, which may run before this element has been placed.
-    local titleBarHeight = page.titleBarHeight and page:titleBarHeight() or 16
-    local size = self:preferredSize()
-    return page:getY() + math.floor((titleBarHeight - size) / 2) + size
 end
 
 function NEQ_ToggleButton:reposition()
@@ -112,7 +101,19 @@ function NEQ_ToggleButton:reposition()
     else
         self:setX(page:getX() - size - GAP - Tetris.sideStripWidth(page))
     end
-    self:setY(page:getY() + math.floor((titleBarHeight - size) / 2))
+
+    -- In altezza sta al centro della NOSTRA intestazione, a pannello aperto o
+    -- chiuso: agganciato e aperto e' li' dentro, e un tasto che salta di
+    -- qualche pixel ogni volta che lo si preme sembra rotto. Da chiuso sporge
+    -- un poco sotto la barra di CleanUI, come faceva prima della 1.0.0. Il
+    -- pannello agganciato parte dal bordo alto dell'inventario, salvo quando lo
+    -- schermo lo spinge piu' su (snapToInventory): allora si segue lui.
+    local band = tonumber(self.panel and self.panel.headerHeight) or titleBarHeight
+    local top = page:getY()
+    if self.panel and self.panel.docked and self:isOpen() then
+        top = self.panel:getY()
+    end
+    self:setY(top + math.floor((band - size) / 2))
 end
 
 -- ---------------------------------------------------------------------------

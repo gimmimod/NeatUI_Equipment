@@ -87,4 +87,9 @@ UI_DA = {
 	UI_NEQ_options_disable_tooltip = "Kun for dig: ingen figurknap, intet panel, ingen genvej, og inventarlisten tegnes igen af spillet. Gemte sæt bevares. Nyttigt på en server, hvor modden er påkrævet.",
 	UI_NEQ_options_reset_geometry = "Nulstil panelets størrelse og position",
 	UI_NEQ_options_reset_geometry_tooltip = "Sætter panelet tilbage på inventaret i startstørrelsen. Brug det, hvis panelet er vokset ud over skærmkanten.",
+	UI_NEQ_put_away = "Tøj lagt væk i: %1",
+	UI_NEQ_options_panel_opacity = "Panelets dækkevne (normal: 100)",
+	UI_NEQ_options_panel_opacity_tooltip = "Hvor tæt baggrunden i panelet og garderoben er. 100 er helt uigennemsigtig; lavere lader spillet skinne igennem.",
+	UI_NEQ_options_match_cleanui = "Se ud som CleanUI",
+	UI_NEQ_options_match_cleanui_tooltip = "Panelet og garderoben bruger CleanUI's egen ramme og den baggrundsdækkevne, der er valgt i CleanUI's indstillinger, så de passer til inventaret. Skyderen bruges ikke, mens dette er slået til. Kræver CleanUI.",
 }

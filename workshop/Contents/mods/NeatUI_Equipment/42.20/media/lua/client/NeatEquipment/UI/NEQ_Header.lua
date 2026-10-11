@@ -38,7 +38,7 @@ require "ISUI/ISPanel"
 local Style  = require("NeatEquipment/NEQ_Style")
 local Tetris = require("NeatEquipment/ModCompatibility/NEQ_InventoryTetris")
 
-local FONT = UIFont.Small
+local FONT = UIFont.Medium
 
 ---@class NEQ_Header : ISPanel
 local NEQ_Header = ISPanel:derive("NEQ_Header")

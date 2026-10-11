@@ -87,4 +87,9 @@ UI_EN = {
 	UI_NEQ_options_disable_tooltip = "For you only: no figure button, no panel, no shortcut, and the inventory list is drawn by the game again. Saved outfits are kept. Useful on a server where the mod is required.",
 	UI_NEQ_options_reset_geometry = "Reset panel size and position",
 	UI_NEQ_options_reset_geometry_tooltip = "Puts the panel back on the inventory at its starting size. Use it if the panel has grown past the edge of the screen.",
+	UI_NEQ_put_away = "Clothes put away in: %1",
+	UI_NEQ_options_panel_opacity = "Panel opacity (normal: 100)",
+	UI_NEQ_options_panel_opacity_tooltip = "How solid the background of the panel and the wardrobe is. 100 is fully opaque; lower lets the game show through.",
+	UI_NEQ_options_match_cleanui = "Look like CleanUI",
+	UI_NEQ_options_match_cleanui_tooltip = "The panel and the wardrobe use CleanUI's own frame and the background opacity set in CleanUI's options, so they match the inventory. The opacity slider is not used while this is on. Needs CleanUI.",
 }

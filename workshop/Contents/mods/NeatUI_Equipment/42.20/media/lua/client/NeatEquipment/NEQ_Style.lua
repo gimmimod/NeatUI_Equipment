@@ -202,11 +202,77 @@ function Y.drawNP(el, path, x, y, w, h, tint, alpha)
 end
 
 --- Rocco window anatomy: rounded-top header strip, flat-top body below it.
-function Y.drawWindow(el, x, y, w, h, headerH)
+--[[ L'aspetto delle finestre, scelto nelle opzioni (NEQ_ModOptions).
+
+    BODY_ALPHA e' l'opacita' del fondo, dal cursore: la barra del titolo resta
+    piena, come in CleanUI, cosi' anche un fondo quasi trasparente ha un bordo
+    alto da cui prendere la finestra.
+
+    LOOK = "cleanui" disegna barra, fondo e bordo con le texture di CleanUI e
+    con l'opacita' che il giocatore ha scelto LA' (CleanUI_getBackgroundOpacity),
+    cosi' pannello e inventario sono la stessa finestra. Vale solo se CleanUI e'
+    attiva: le texture sono sue, e senza di lei si torna al Neat.
+]]
+Y.BODY_ALPHA = 1.0
+Y.LOOK = "neat"
+
+local CUI = "media/ui/CleanUI/Panel/"
+
+function Y.usesCleanUILook()
+    return Y.LOOK == "cleanui" and type(rawget(_G, "CleanUI_getBackgroundOpacity")) == "function"
+end
+
+local function cleanUIOpacity()
+    local fn = rawget(_G, "CleanUI_getBackgroundOpacity")
+    if type(fn) ~= "function" then return 0.65 end
+    local ok, v = pcall(fn)
+    v = ok and tonumber(v) or 0.65
+    return math.max(0.05, math.min(1, v))
+end
+
+--- La finestra come la disegna CleanUI (ISInventoryPage:prerender nella sua
+--- copia): barra CUI_TitleBarBG grigia 0.6 a 0.95, fondo MainBackground quasi
+--- nero e bordo MainBorder grigio 0.8, tutti e due all'opacita' di CleanUI.
+--- Le due varianti del fondo hanno l'angolo arrotondato da un lato solo:
+--- _L a sinistra (aperta a destra), _R a destra. Agganciato si usa quella del
+--- lato esterno; una finestra libera le mette affiancate, mezza e mezza.
+local function drawCleanUIWindow(el, x, y, w, h, headerH, side)
+    local ax, ay = el:getAbsoluteX() + x, el:getAbsoluteY() + y
+    local rolledUp = h <= headerH
+    local title = NinePatchTexture.getSharedTexture(CUI .. (rolledUp and "CUI_TitleBarBG_Collapsed.png" or "CUI_TitleBarBG.png"))
+    if title then title:render(ax, ay, w, headerH, 0.6, 0.6, 0.6, 0.95) end
+    if rolledUp then return end
+
+    local a = cleanUIOpacity()
+    local function body(suffix, bx, bw)
+        local bg = NinePatchTexture.getSharedTexture(CUI .. "MainBackground_" .. suffix .. ".png")
+        local border = NinePatchTexture.getSharedTexture(CUI .. "MainBorder_" .. suffix .. ".png")
+        if bg then bg:render(ax + bx, ay + headerH, bw, h - headerH, 0.05, 0.05, 0.05, a) end
+        if border then border:render(ax + bx, ay + headerH, bw, h - headerH, 0.8, 0.8, 0.8, a) end
+    end
+    if side == "left" then
+        body("L", 0, w)
+    elseif side == "right" then
+        body("R", 0, w)
+    else
+        local half = math.floor(w / 2)
+        body("L", 0, half)
+        body("R", half, w - half)
+    end
+    el:drawRect(x, y + headerH - 1, w, 1, 1, 0, 0, 0)
+end
+
+--- `side`: da che parte la finestra e' agganciata all'inventario ("left" se
+--- sta alla sua sinistra, "right" alla sua destra), nil se e' libera. Serve
+--- solo all'aspetto CleanUI, per l'angolo da arrotondare.
+function Y.drawWindow(el, x, y, w, h, headerH, side)
+    if Y.usesCleanUILook() then
+        return drawCleanUIWindow(el, x, y, w, h, headerH, side)
+    end
     Y.drawNP(el, Y.NP.header, x, y, w, headerH, Y.TINT_HEADER, Y.PANEL_ALPHA)
     -- A window rolled up to its header (NEQ_Collapse) has no body to draw.
     if h > headerH then
-        Y.drawNP(el, Y.NP.body, x, y + headerH, w, h - headerH, Y.TINT_BODY, Y.PANEL_ALPHA)
+        Y.drawNP(el, Y.NP.body, x, y + headerH, w, h - headerH, Y.TINT_BODY, Y.BODY_ALPHA)
     end
     -- The black hairline under the header is what separates the two tints.
     el:drawRect(x, y + headerH - 1, w, 1, 1, 0, 0, 0)

@@ -87,4 +87,9 @@ UI_PTBR = {
 	UI_NEQ_options_disable_tooltip = "Só para você: sem botão da figura, sem painel, sem atalho, e a lista do inventário volta a ser desenhada pelo jogo. As roupas salvas são mantidas. Útil em um servidor onde o mod é obrigatório.",
 	UI_NEQ_options_reset_geometry = "Redefinir tamanho e posição do painel",
 	UI_NEQ_options_reset_geometry_tooltip = "Prende o painel de volta ao inventário no tamanho inicial. Use se o painel tiver passado da borda da tela.",
+	UI_NEQ_put_away = "Roupas guardadas em: %1",
+	UI_NEQ_options_panel_opacity = "Opacidade do painel (normal: 100)",
+	UI_NEQ_options_panel_opacity_tooltip = "O quanto é sólido o fundo do painel e do guarda-roupa. 100 é totalmente opaco; menos deixa ver o jogo através.",
+	UI_NEQ_options_match_cleanui = "Visual do CleanUI",
+	UI_NEQ_options_match_cleanui_tooltip = "O painel e o guarda-roupa usam a moldura do CleanUI e a opacidade de fundo escolhida nas opções do CleanUI, para combinar com o inventário. Enquanto estiver ativo, o controle de opacidade não é usado. Requer o CleanUI.",
 }

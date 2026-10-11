@@ -39,16 +39,22 @@ local NEQ_Body         = require("NeatEquipment/UI/NEQ_Body")
 local NEQ_SuperSlotPopup = require("NeatEquipment/UI/NEQ_SuperSlotPopup")
 local NEQ_Wardrobe     = require("NeatEquipment/UI/NEQ_Wardrobe")
 
-local FONT_HGT_SMALL = getTextManager():getFontHeight(UIFont.Small)
+local FONT_HGT_MEDIUM = getTextManager():getFontHeight(UIFont.Medium)
 
 ---@class NEQ_Panel : ISPanel
 local NEQ_Panel = ISPanel:derive("NEQ_Panel")
 
--- Alta quanto la barra del titolo di CleanUI (ISInventoryPage:titleBarHeight
--- nella loro copia: 1.2 volte il carattere piccolo), cosi' agganciato il
--- pannello continua la barra dell'inventario invece di farle da gradino. Era
--- 1.5 volte il carattere medio, e accanto a CleanUI pesava il doppio.
-NEQ_Panel.headerHeight = math.max(18, math.floor(FONT_HGT_SMALL * 1.2))
+-- L'altezza del canone Neat (STILE.md, dal framework di Rocco): 1.5 volte il
+-- carattere medio, la stessa del guardaroba.
+--
+-- La 1.0.0 l'aveva abbassata a quella della barra del titolo di CleanUI (1.2
+-- volte il carattere piccolo), perche' agganciato il pannello continuasse la
+-- loro barra. Ma i tasti sono una frazione dell'altezza (Style.HEADER), e
+-- scesero da 21-26 pixel a 15-16 a 1080p: "buttons are way smaller since the
+-- last update", e difficili da prendere. Torna il canone; della 1.0.0 resta
+-- l'allineamento in alto con l'inventario (snapToInventory), che era la
+-- richiesta vera.
+NEQ_Panel.headerHeight = math.floor(FONT_HGT_MEDIUM * 1.5)
 
 function NEQ_Panel:new(inventoryPane, playerNum)
     local inventoryPage = inventoryPane.parent
@@ -394,12 +400,11 @@ function NEQ_Panel:snapToInventory()
         self:setX(page:getX() - self:getWidth() + 1)
     end
 
-    -- A filo del bordo alto dell'inventario: la nostra intestazione e' alta
-    -- quanto la sua barra del titolo e la continua. Prima il pannello partiva
-    -- sotto il tasto con la figura, e agganciato stava piu' in basso di
-    -- CleanUI lasciando un vuoto in alto (segnalazione 42.21). Il tasto resta
-    -- dov'era, dentro la nostra barra: l'intestazione gli lascia il posto
-    -- (headerReserve).
+    -- A filo del bordo alto dell'inventario. Prima il pannello partiva sotto
+    -- il tasto con la figura, e agganciato stava piu' in basso di CleanUI
+    -- lasciando un vuoto in alto (segnalazione 42.21). Il tasto sta dentro la
+    -- nostra barra, centrato nella sua altezza (NEQ_ToggleButton:reposition):
+    -- l'intestazione gli lascia il posto (headerReserve).
     local top = page:getY()
 
     -- The panel is taller than the inventory's title bar by a long way, so an
@@ -890,7 +895,11 @@ function NEQ_Panel:prerender()
         self:clearMaxDrawHeight()
     end
 
-    Style.drawWindow(self, 0, 0, self.width, self.height, NEQ_Panel.headerHeight)
+    -- Agganciato, il lato esterno e' quello opposto all'inventario: conta per
+    -- l'aspetto CleanUI, che arrotonda un angolo solo (Style.drawWindow).
+    local side = nil
+    if self.docked then side = State.dockRight and "right" or "left" end
+    Style.drawWindow(self, 0, 0, self.width, self.height, NEQ_Panel.headerHeight, side)
 end
 
 function NEQ_Panel:render()

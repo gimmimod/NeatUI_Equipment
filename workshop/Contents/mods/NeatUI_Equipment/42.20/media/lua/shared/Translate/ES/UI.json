@@ -86,5 +86,10 @@
     "UI_NEQ_options_disable": "Desactivar NeatUI Equipment",
     "UI_NEQ_options_disable_tooltip": "Solo para ti: sin botón de la figura, sin panel, sin atajo, y la lista del inventario vuelve a dibujarla el juego. Los conjuntos guardados se conservan. Útil en un servidor donde el mod es obligatorio.",
     "UI_NEQ_options_reset_geometry": "Restablecer tamaño y posición del panel",
-    "UI_NEQ_options_reset_geometry_tooltip": "Vuelve a pegar el panel al inventario con su tamaño inicial. Úsalo si el panel ha crecido más allá del borde de la pantalla."
+    "UI_NEQ_options_reset_geometry_tooltip": "Vuelve a pegar el panel al inventario con su tamaño inicial. Úsalo si el panel ha crecido más allá del borde de la pantalla.",
+    "UI_NEQ_put_away": "Ropa guardada en: %1",
+    "UI_NEQ_options_panel_opacity": "Opacidad del panel (normal: 100)",
+    "UI_NEQ_options_panel_opacity_tooltip": "Lo sólido que es el fondo del panel y del armario. 100 es totalmente opaco; menos deja ver el juego a través.",
+    "UI_NEQ_options_match_cleanui": "Aspecto de CleanUI",
+    "UI_NEQ_options_match_cleanui_tooltip": "El panel y el armario usan el marco de CleanUI y la opacidad de fondo elegida en las opciones de CleanUI, para que combinen con el inventario. Mientras está activado no se usa el control de opacidad. Requiere CleanUI."
 }

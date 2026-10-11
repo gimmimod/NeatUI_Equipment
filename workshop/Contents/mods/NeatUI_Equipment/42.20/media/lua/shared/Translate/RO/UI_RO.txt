@@ -87,4 +87,9 @@ UI_RO = {
 	UI_NEQ_options_disable_tooltip = "Doar pentru tine: fără butonul cu figura, fără panou, fără scurtătură, iar lista inventarului este desenată din nou de joc. Ținutele salvate rămân. Util pe un server unde modul este obligatoriu.",
 	UI_NEQ_options_reset_geometry = "Resetează mărimea și poziția panoului",
 	UI_NEQ_options_reset_geometry_tooltip = "Prinde din nou panoul de inventar la mărimea inițială. Folosește-l dacă panoul a crescut dincolo de marginea ecranului.",
+	UI_NEQ_put_away = "Haine puse deoparte în: %1",
+	UI_NEQ_options_panel_opacity = "Opacitatea panoului (normal: 100)",
+	UI_NEQ_options_panel_opacity_tooltip = "Cât de plin este fundalul panoului și al garderobei. 100 este complet opac; mai puțin lasă jocul să se vadă prin el.",
+	UI_NEQ_options_match_cleanui = "Aspect ca CleanUI",
+	UI_NEQ_options_match_cleanui_tooltip = "Panoul și garderoba folosesc rama CleanUI și opacitatea fundalului aleasă în opțiunile CleanUI, ca să se potrivească cu inventarul. Cât timp e activ, glisorul de opacitate nu se folosește. Necesită CleanUI.",
 }

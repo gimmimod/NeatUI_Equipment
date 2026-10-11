@@ -87,4 +87,9 @@ UI_IT = {
 	UI_NEQ_options_disable_tooltip = "Solo per te: niente tasto con la figura, niente pannello, niente scorciatoia, e l'elenco dell'inventario torna come lo disegna il gioco. I completi salvati restano. Utile su un server dove la mod è obbligatoria.",
 	UI_NEQ_options_reset_geometry = "Ripristina misura e posizione del pannello",
 	UI_NEQ_options_reset_geometry_tooltip = "Rimette il pannello attaccato all'inventario, alla misura di partenza. Usalo se il pannello è cresciuto oltre il bordo dello schermo.",
+	UI_NEQ_put_away = "Vestiti messi via in: %1",
+	UI_NEQ_options_panel_opacity = "Opacità del pannello (normale: 100)",
+	UI_NEQ_options_panel_opacity_tooltip = "Quanto è pieno il fondo del pannello e del guardaroba. 100 è del tutto opaco; meno lascia vedere il gioco attraverso.",
+	UI_NEQ_options_match_cleanui = "Aspetto di CleanUI",
+	UI_NEQ_options_match_cleanui_tooltip = "Il pannello e il guardaroba usano la cornice di CleanUI e l'opacità del fondo scelta nelle opzioni di CleanUI, così sono uguali all'inventario. Finché è attiva, il cursore dell'opacità non si usa. Serve CleanUI.",
 }

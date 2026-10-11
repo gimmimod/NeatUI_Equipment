@@ -86,5 +86,10 @@
     "UI_NEQ_options_disable": "关闭 NeatUI Equipment",
     "UI_NEQ_options_disable_tooltip": "仅对你生效：没有人形按钮、没有面板、没有快捷键，物品栏列表恢复为游戏原本的样子。已保存的套装会保留。适用于强制安装此模组的服务器。",
     "UI_NEQ_options_reset_geometry": "重置面板大小和位置",
-    "UI_NEQ_options_reset_geometry_tooltip": "将面板以初始大小重新贴回物品栏。当面板超出屏幕边缘时使用。"
+    "UI_NEQ_options_reset_geometry_tooltip": "将面板以初始大小重新贴回物品栏。当面板超出屏幕边缘时使用。",
+    "UI_NEQ_put_away": "衣物已收纳至：%1",
+    "UI_NEQ_options_panel_opacity": "面板不透明度（正常：100）",
+    "UI_NEQ_options_panel_opacity_tooltip": "面板和衣柜背景的不透明程度。100 为完全不透明；数值越低越能看见背后的游戏。",
+    "UI_NEQ_options_match_cleanui": "外观与 CleanUI 一致",
+    "UI_NEQ_options_match_cleanui_tooltip": "面板和衣柜使用 CleanUI 自己的边框，以及 CleanUI 选项中设置的背景不透明度，与物品栏一致。开启时不使用不透明度滑块。需要 CleanUI。"
 }

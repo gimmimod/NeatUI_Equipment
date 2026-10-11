@@ -87,4 +87,9 @@ UI_NO = {
 	UI_NEQ_options_disable_tooltip = "Bare for deg: ingen figurknapp, intet panel, ingen snarvei, og inventarlisten tegnes av spillet igjen. Lagrede antrekk beholdes. Nyttig på en server der moden er påkrevd.",
 	UI_NEQ_options_reset_geometry = "Tilbakestill panelets størrelse og posisjon",
 	UI_NEQ_options_reset_geometry_tooltip = "Setter panelet tilbake på inventaret i startstørrelsen. Bruk det hvis panelet har vokst forbi skjermkanten.",
+	UI_NEQ_put_away = "Klær lagt bort i: %1",
+	UI_NEQ_options_panel_opacity = "Panelets dekkevne (normal: 100)",
+	UI_NEQ_options_panel_opacity_tooltip = "Hvor tett bakgrunnen i panelet og garderoben er. 100 er helt ugjennomsiktig; lavere lar spillet skinne gjennom.",
+	UI_NEQ_options_match_cleanui = "Se ut som CleanUI",
+	UI_NEQ_options_match_cleanui_tooltip = "Panelet og garderoben bruker CleanUIs egen ramme og bakgrunnsdekkevnen valgt i CleanUIs innstillinger, så de passer til inventaret. Glidebryteren brukes ikke mens dette er på. Krever CleanUI.",
 }

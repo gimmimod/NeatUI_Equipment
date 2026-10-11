@@ -87,4 +87,9 @@ UI_PH = {
 	UI_NEQ_options_disable_tooltip = "Para sa iyo lang: walang button ng pigura, walang panel, walang shortcut, at ang laro ulit ang gumuguhit ng listahan ng inventory. Nananatili ang mga naka-save na outfit. Kapaki-pakinabang sa server kung saan kailangan ang mod.",
 	UI_NEQ_options_reset_geometry = "I-reset ang laki at puwesto ng panel",
 	UI_NEQ_options_reset_geometry_tooltip = "Ibinabalik ang panel sa inventory sa orihinal nitong laki. Gamitin kung lumampas ang panel sa gilid ng screen.",
+	UI_NEQ_put_away = "Itinabi ang damit sa: %1",
+	UI_NEQ_options_panel_opacity = "Opacity ng panel (normal: 100)",
+	UI_NEQ_options_panel_opacity_tooltip = "Gaano kasolido ang background ng panel at ng aparador. 100 ay ganap na malabo; mas mababa ay ipinapakita ang laro sa likod.",
+	UI_NEQ_options_match_cleanui = "Itsura ng CleanUI",
+	UI_NEQ_options_match_cleanui_tooltip = "Ginagamit ng panel at ng aparador ang sariling frame ng CleanUI at ang opacity ng background na pinili sa mga opsyon ng CleanUI, para tumugma sa inventory. Hindi ginagamit ang slider habang naka-on ito. Kailangan ang CleanUI.",
 }

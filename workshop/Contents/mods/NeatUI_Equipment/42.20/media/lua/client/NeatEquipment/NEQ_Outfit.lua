@@ -400,9 +400,15 @@ end
     server dedicato).
 
     Quindi in rete i completi stanno in un file del client, in Zomboid/Lua, uno
-    per server e per personaggio, e nella modData resta solo `wid`: una manciata
-    di caratteri che dice quale file e' di questo personaggio. Un personaggio
+    per personaggio, e nella modData resta solo `wid`: una manciata di
+    caratteri che dice quale file e' di questo personaggio. Un personaggio
     nuovo con lo stesso nome ha un `wid` nuovo, e un guardaroba vuoto.
+
+    Il file si chiama col solo `wid` (NeatUIEquipment_<wid>.txt), che e' gia'
+    unico. Nella 1.0.0 davanti c'era anche l'indirizzo del server: lo stesso
+    server raggiunto per nome invece che per numero, o con l'indirizzo cambiato,
+    dava un altro file e un guardaroba vuoto. Il file col nome della 1.0.0 si
+    cerca ancora, una volta, e si ricopia sotto il nome nuovo.
 
     I completi gia' salvati nella modData da una versione precedente passano
     nel file alla prima lettura, e la modData si svuota con un'ultima
@@ -493,7 +499,8 @@ local function safeName(s)
     return (string.gsub(tostring(s or ""), "[^%w_%-]", "_"))
 end
 
---- Il server a cui si e' collegati, come parte del nome del file.
+--- Il server come lo nominava la 1.0.0 nel nome del file: serve solo a
+--- ritrovare quei file (networkStore).
 local function serverKey()
     local ip, port = "", ""
     pcall(function() ip = tostring(getServerIP() or "") end)
@@ -513,10 +520,57 @@ local function modRoot(character)
     return root
 end
 
+--[[ La spedizione aspetta che il personaggio sia nel mondo.
+
+    IsoObject.transmitModData esce senza dire niente finche' il personaggio non
+    ha una casella (`square`, letto nel bytecode), e la casella arriva al suo
+    primo aggiornamento dopo che la mappa intorno e' stata costruita, cioe' dopo
+    OnCreatePlayer (lezione 78). Un `wid` nato prima restava solo sul client: al
+    rientro il server non lo conosceva, ne nasceva un altro e il guardaroba si
+    apriva vuoto. Senza casella la spedizione si segna, e parte da OnTick
+    quando la casella c'e' da due fotogrammi.
+]]
+local waitingSend = {}   -- [personaggio] = fotogrammi passati con la casella
+
+local function hasSquare(character)
+    local sq
+    pcall(function() sq = character:getCurrentSquare() end)
+    return sq ~= nil
+end
+
 local function transmitNow(character)
     if not character or not isClient() then return end
-    pcall(function() character:transmitModData() end)
+    if hasSquare(character) then
+        pcall(function() character:transmitModData() end)
+        waitingSend[character] = nil
+    else
+        waitingSend[character] = 0
+    end
 end
+
+--- Prima si guarda, poi si cambia: le tabelle di Kahlua sono mappe Java, e
+--- toccarne le chiavi mentre le si scorre non e' una cosa da fare.
+local function sendWaiting()
+    local ready, later = nil, nil
+    for character, ticks in pairs(waitingSend) do
+        if hasSquare(character) then
+            if ticks >= 1 then
+                ready = ready or {}
+                ready[#ready + 1] = character
+            else
+                later = later or {}
+                later[#later + 1] = character
+            end
+        end
+    end
+    for _, character in ipairs(later or {}) do waitingSend[character] = 1 end
+    for _, character in ipairs(ready or {}) do
+        waitingSend[character] = nil
+        pcall(function() character:transmitModData() end)
+    end
+end
+
+Events.OnTick.Add(sendWaiting)
 
 local function readFile(name)
     local reader = getFileReader(name, false)
@@ -555,20 +609,37 @@ end
 -- Per file, non per personaggio: in split screen ognuno ha il suo.
 local fileStores = {}
 
+-- `wid` di ogni personaggio visto in questa sessione, per oggetto giocatore.
+-- Se la modData lo perde a meta' partita - una copia rimandata dal server prima
+-- che la nostra spedizione arrivasse - si rimette questo invece di inventarne
+-- un secondo, che aprirebbe un guardaroba vuoto.
+local knownWid = {}
+
 --- Il file del personaggio, creato e migrato alla prima richiesta.
 local function networkStore(character, root)
     if type(root.wid) ~= "string" or root.wid == "" then
-        local name = "x"
-        pcall(function() name = character:getUsername() or name end)
-        root.wid = safeName(tostring(getTimestampMs()) .. "_" .. tostring(ZombRand(1000000)) .. "_" .. name)
+        local id = knownWid[character]
+        if not id then
+            local name = "x"
+            pcall(function() name = character:getUsername() or name end)
+            id = safeName(tostring(getTimestampMs()) .. "_" .. tostring(ZombRand(1000000)) .. "_" .. name)
+        end
+        root.wid = id
         transmitNow(character)
     end
+    knownWid[character] = root.wid
 
-    local fileName = FILE_PREFIX .. serverKey() .. "_" .. root.wid .. ".txt"
+    local fileName = FILE_PREFIX .. root.wid .. ".txt"
     local entry = fileStores[fileName]
     if entry then return entry end
 
-    entry = { fileName = fileName, outfits = readFile(fileName) or {} }
+    local outfits = readFile(fileName)
+    if not outfits then
+        -- Il nome della 1.0.0, con l'indirizzo del server davanti.
+        outfits = readFile(FILE_PREFIX .. serverKey() .. "_" .. root.wid .. ".txt")
+        if outfits then writeFile(fileName, outfits) end
+    end
+    entry = { fileName = fileName, outfits = outfits or {} }
     fileStores[fileName] = entry
 
     -- Quelli che stavano nella modData: in coda a quelli del file, poi la

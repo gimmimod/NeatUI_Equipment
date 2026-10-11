@@ -86,5 +86,10 @@
     "UI_NEQ_options_disable": "Désactiver NeatUI Equipment",
     "UI_NEQ_options_disable_tooltip": "Pour vous seulement : plus de bouton silhouette, plus de panneau, plus de raccourci, et la liste de l'inventaire est à nouveau dessinée par le jeu. Les tenues enregistrées sont conservées. Utile sur un serveur où le mod est obligatoire.",
     "UI_NEQ_options_reset_geometry": "Réinitialiser la taille et la position du panneau",
-    "UI_NEQ_options_reset_geometry_tooltip": "Raccroche le panneau à l'inventaire à sa taille de départ. À utiliser si le panneau a dépassé le bord de l'écran."
+    "UI_NEQ_options_reset_geometry_tooltip": "Raccroche le panneau à l'inventaire à sa taille de départ. À utiliser si le panneau a dépassé le bord de l'écran.",
+    "UI_NEQ_put_away": "Vêtements rangés dans : %1",
+    "UI_NEQ_options_panel_opacity": "Opacité du panneau (normale : 100)",
+    "UI_NEQ_options_panel_opacity_tooltip": "L'opacité du fond du panneau et de la garde-robe. 100 est totalement opaque ; moins laisse voir le jeu au travers.",
+    "UI_NEQ_options_match_cleanui": "Apparence CleanUI",
+    "UI_NEQ_options_match_cleanui_tooltip": "Le panneau et la garde-robe utilisent le cadre de CleanUI et l'opacité de fond choisie dans les options de CleanUI, pour s'accorder à l'inventaire. Le curseur d'opacité n'est pas utilisé tant que c'est activé. Nécessite CleanUI."
 }

@@ -87,4 +87,9 @@ UI_TR = {
 	UI_NEQ_options_disable_tooltip = "Yalnızca senin için: figür düğmesi, panel ve kısayol olmaz, envanter listesini yeniden oyun çizer. Kayıtlı kıyafetler korunur. Modun zorunlu olduğu bir sunucuda işe yarar.",
 	UI_NEQ_options_reset_geometry = "Panel boyutunu ve konumunu sıfırla",
 	UI_NEQ_options_reset_geometry_tooltip = "Paneli başlangıç boyutunda envantere geri takar. Panel ekranın kenarından taştıysa kullan.",
+	UI_NEQ_put_away = "Kıyafetler kaldırıldı: %1",
+	UI_NEQ_options_panel_opacity = "Panel opaklığı (normal: 100)",
+	UI_NEQ_options_panel_opacity_tooltip = "Panelin ve gardırobun arka planının ne kadar dolu olduğu. 100 tamamen opaktır; daha düşük değer oyunu arkasından gösterir.",
+	UI_NEQ_options_match_cleanui = "CleanUI görünümü",
+	UI_NEQ_options_match_cleanui_tooltip = "Panel ve gardırop, envanterle uyumlu olmaları için CleanUI'nin kendi çerçevesini ve CleanUI seçeneklerinde belirlenen arka plan opaklığını kullanır. Açıkken opaklık kaydırıcısı kullanılmaz. CleanUI gerekir.",
 }

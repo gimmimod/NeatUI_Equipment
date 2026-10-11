@@ -158,6 +158,30 @@ local function entryIsAllEquipped(entry, equipped)
     return true
 end
 
+--- Un portachiavi: vanilla lo mette fra gli "equipaggiati" anche se non e'
+--- addosso a nessuno (ISInventoryPane:refreshContainer, "keyring:"), solo per
+--- tenerlo in cima alla lista. Il pannello Equipment non lo mostra, quindi
+--- toglierlo dall'inventario voleva dire non trovarlo piu' da nessuna parte:
+--- con l'occhio acceso le chiavi sparivano.
+local function isKeyRingRow(entry)
+    local item = entry.items and entry.items[1]
+    if not item then return false end
+    -- Nomi e metodi guardati prima di usarli: in Kahlua chiamare un nil non lo
+    -- ferma il pcall (lezione 33), e questa riga gira a ogni ricostruzione
+    -- della lista.
+    local itemType, itemTag = rawget(_G, "ItemType"), rawget(_G, "ItemTag")
+    local yes = false
+    pcall(function()
+        if itemType and itemType.KEY_RING and item.isItemType then
+            yes = item:isItemType(itemType.KEY_RING) == true
+        end
+        if not yes and itemTag and itemTag.KEY_RING and item.hasTag then
+            yes = item:hasTag(itemTag.KEY_RING) == true
+        end
+    end)
+    return yes
+end
+
 --- Returns the filtered list, and the equipped set and count it was built
 --- from, which equippedChanged compares against.
 local function buildFilteredList(itemslist, playerNum)
@@ -167,10 +191,11 @@ local function buildFilteredList(itemslist, playerNum)
     local filtered = {}
     for _, entry in ipairs(itemslist) do
         -- Le etichette della lista restano come prima linea: quando ci sono
-        -- sono giuste, e costano un confronto. Il separatore e' l'intestazione
+        -- sono giuste, e costano un confronto - tranne `equipped` su un
+        -- portachiavi (isKeyRingRow). Il separatore e' l'intestazione
         -- "Equipped items" di CleanUI.
         local hide = entry and (entry.type == "separator"
-            or entry.equipped == true
+            or (entry.equipped == true and not isKeyRingRow(entry))
             or entry.inHotbar == true
             or entryIsAllEquipped(entry, equipped))
 

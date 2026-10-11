@@ -442,12 +442,24 @@ end
 ]]
 
 -- Containers that hold something, but are not where anything from an outfit
--- is put away. The names are the container types from the game's
--- distributions.
+-- is put away. The names are the container types the game uses
+-- (ContainerButtonIcons.lua lists them all).
+--
+-- "Ce n'e' gia' uno simile" non basta a farne un armadio. Un manichino o uno
+-- spaventapasseri si mette addosso quello che gli si da': il capo smette di
+-- essere un oggetto in un contenitore e il giocatore lo cerca invano. In un
+-- fuoco i vestiti sono legna. Nella spazzatura e nel compost finiscono le cose
+-- da buttare, in una bara quelle di un morto. Lavatrice e asciugatrice il gioco
+-- le scrive in due modi, e prima ne avevamo uno solo.
 local NOT_FOR_CLOTHES = {
-    fridge = true, freezer = true, stove = true, microwave = true,
-    bin = true, dumpster = true, clothingwasher = true, clothingdryer = true,
-    barbecue = true, fireplace = true, woodstove = true,
+    fridge = true, freezer = true, icecream = true,
+    stove = true, oven = true, microwave = true,
+    barbecue = true, barbecuepropane = true, fireplace = true, woodstove = true,
+    campfire = true, brazier = true,
+    bin = true, garbage = true, dumpster = true, composter = true,
+    clothingwasher = true, clothingdryer = true, clothingWasher = true, clothingDryer = true,
+    mannequin = true, scarecrow = true,
+    inventorymale = true, inventoryfemale = true, coffin = true,
 }
 
 local function isAttachedTo(hotbar, item, slotType)
@@ -470,6 +482,37 @@ end
 local function containerType(container)
     local ok, t = pcall(function() return container:getType() end)
     return ok and t or nil
+end
+
+--- Il nome di un contenitore come lo scrive la finestra del bottino
+--- (ISInventoryPage: IGUI_ContainerTitle_<tipo>, poi il tipo visualizzato).
+local function containerName(container)
+    local t = containerType(container)
+    local name = t and getTextOrNull("IGUI_ContainerTitle_" .. t) or nil
+    if not name then
+        pcall(function() name = getTextOrNull("IGUI_ContainerTitle_" .. container:getDisplayType()) end)
+    end
+    return name or t or "?"
+end
+
+--- Dove sono andati i capi messi via, detto sopra la testa. Senza, un completo
+--- tolto "spariva": era nel mobile accanto, ma nessuno l'aveva visto andarci
+--- (segnalazione 1.0.0, "mi sono tolto il completo e gli oggetti sono spariti").
+local function announceStore(character, moves)
+    local names, seen = {}, {}
+    for _, move in ipairs(moves) do
+        if not seen[move.dest] then
+            seen[move.dest] = true
+            names[#names + 1] = containerName(move.dest)
+        end
+    end
+    if #names == 0 then return end
+    local list = names[1]
+    if names[2] then list = list .. ", " .. names[2] end
+    if names[3] then list = list .. ", ..." end
+    pcall(function()
+        character:setHaloNote(getText("UI_NEQ_put_away", list), 220, 220, 220, 300)
+    end)
 end
 
 --- What an item weighs once it is off the survivor.
@@ -596,6 +639,7 @@ local function queueStore(character, plan)
     for _, move in ipairs(moves) do
         queue(newTransfer(character, move.item, inventory, move.dest))
     end
+    if #moves > 0 then announceStore(character, moves) end
 end
 
 --- Phase two. Runs once the fetches have landed, so the world is read again
